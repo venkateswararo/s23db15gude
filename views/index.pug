@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  h1= title
+  p Making the changes in the views and index #{title}
+   
+  button(type="button", class="btn btn-primary", onclick="goFaster()") Press Me
+
+  div#faster <i>Increase the speed</i>
+
+  script.
+   var mph = 20;
+   var change = 1;
+   function goFaster() {
+   mph = mph + change;
+   change +=1;
+   document.getElementById("faster").innerHTML = "<b>MPH</b> " + mph + " with <i>change</i> " + change;
+   }
+  div.text-center
+    a(href='/Elephant') Elephants link
+  
