@@ -12,9 +12,17 @@ exports.elephant_list = async function(req, res) {
    };
    
 // for a specific elephant.
-exports.elephant_detail = function(req, res) {
- res.send('NOT IMPLEMENTED: elephant detail: ' + req.params.id);
-};
+exports.elephant_detail = async function(req, res) {
+    console.log("detail" + req.params.id)
+    try {
+    result = await elephant.findById( req.params.id)
+    res.send(result)
+    } catch (error) {
+    res.status(500)
+    res.send(`{"error": document for id ${req.params.id} not found`);
+    }
+    };
+    
 
 // Handle elephant create on POST.
 exports.elephant_create_post = async function(req, res) {
@@ -23,7 +31,7 @@ exports.elephant_create_post = async function(req, res) {
     // We are looking for a body, since POST does not have query parameters.
     // Even though bodies can be in many different formats, we will be picky
     // and require that it be a json object
-    // {"elephant_type":"goat", "cost":12, "size":"large"}
+    // {"name":"goat", "age":12, "bread":"large"}
     document.name = req.body.name;
     document.age = req.body.age;
     document.bread = req.body.bread;
