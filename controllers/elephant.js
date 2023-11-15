@@ -34,7 +34,7 @@ exports.elephant_create_post = async function(req, res) {
     // {"name":"goat", "age":12, "bread":"large"}
     document.name = req.body.name;
     document.age = req.body.age;
-    document.bread = req.body.bread;
+    document.breed = req.body.breed;
     try{
     let result = await document.save();
     res.send(result);
@@ -48,10 +48,26 @@ exports.elephant_create_post = async function(req, res) {
 exports.elephant_delete = function(req, res) {
  res.send('NOT IMPLEMENTED: elephant delete DELETE ' + req.params.id);
 };
-// Handle elephant update form on PUT.
-exports.elephant_update_put = function(req, res) {
- res.send('NOT IMPLEMENTED: elephant update PUT' + req.params.id);
-};
+//Handle elephant update form on PUT.
+exports.elephant_update_put = async function(req, res) {
+    console.log(`update on id ${req.params.id} with body
+   ${JSON.stringify(req.body)}`)
+    try {
+    let toUpdate = await elephant.findById( req.params.id)
+    // Do updates of properties
+    if(req.body.name)
+    toUpdate.name = req.body.name;
+    if(req.body.age) toUpdate.age = req.body.age;
+    if(req.body.bread) toUpdate.bread = req.body.bread;
+    let result = await toUpdate.save();
+    console.log("Sucess " + result)
+    res.send(result)
+    } catch (err) {
+    res.status(500)
+    res.send(`{"error": ${err}: Update for id ${req.params.id}
+   failed`);
+    }
+   };
 // VIEWS
 // Handle a show all view
 exports.elephant_view_all_Page = async function(req, res) {
@@ -64,3 +80,17 @@ exports.elephant_view_all_Page = async function(req, res) {
     res.send(`{"error": ${err}}`);
     } 
    };
+
+   // Handle elephant delete on DELETE.
+exports.elephant_delete = async function(req, res) {
+    console.log("delete " + req.params.id)
+    try {
+    result = await elephant.findByIdAndDelete( req.params.id)
+    console.log("Removed " + result)
+    res.send(result)
+    } catch (err) {
+    res.status(500)
+    res.send(`{"error": Error deleting ${err}}`);
+    }
+    };
+    
