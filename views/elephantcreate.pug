@@ -1,32 +1,37 @@
 extends layout
 block content
- h1= title
- form(id='elephantForm', action="/resource/elephant", method="POST")
- div.form-group
- label.elephantAttr(for='name') Elephant Name
- input#name(type='text', name='name')
- div.form-group
- label.elephantAttr(for='age') Elephant Age
- input#color(type='number', name='age')
- div.form-group
- label.elephantAttr(for='bread') Elephant Breed
- input#quantity(type='text', name='bread')
- input(type="submit")
- script.
-      document.forms['elephantForm'].addEventListener('submit', (event) => {
-        event.preventDefault();
-    // TODO do something here to show user that form is being submitted
- 
-        fetch(event.target.action, {
-          method: 'POST',
-          body: new URLSearchParams(new FormData(event.target)) // event.target is the form
-        }).then((resp) => {
-          return resp.json(); // or resp.text() or whatever the server sends
-        }).then((body) => {
-          alert("Save succeded")
-    // TODO handle body
-        }).catch((error) => {
-    // TODO handle error
-          alert("Save failed " + error )
-        });
-        });
+  h1= title
+  form(id='elephantForm', action="/resource/elephant", method="POST")
+    div.form-group
+      label.elephantAttr(for='name') Elephant Name
+      input#name(type='text', name='name')
+    div.form-group
+      label.elephantAttr(for='age') Elephant Age
+      input#age(type='number', name='age')
+    div.form-group
+      label.elephantAttr(for='bread') Elephant breed
+      input#bread(type='text',step='any', name='bread')
+    input(type="submit")
+  script.
+    document.forms['elephantForm'].addEventListener('submit', (event) => {
+      event.preventDefault();
+      // TODO do something here to show user that form is being submitted
+      fetch(event.target.action, {
+        method: 'POST',
+        body: new URLSearchParams(new FormData(event.target))
+      }).then((resp) => {
+        if(resp.ok){
+            alert ("elephant Created Successfully")
+            document.getElementById('elephantForm').reset()
+        }
+        else {
+            alert (" File to Create elephant")
+        }
+      }).then((body) => {
+       console.log (body)
+        // TODO handle body
+      }).catch((error) => {
+        // TODO handle error
+        alert("Save failed " + error )
+      });
+    });
