@@ -1,0 +1,45 @@
+extends layout
+ 
+block content
+    h1(class='bonus')= title
+    if (toShow == null)
+        h2 No instance to update
+    else
+        - let elephantid = toShow._id
+        - let name = toShow.name
+        - let age = toShow.age
+        - let bread = toShow.bread
+ 
+ 
+          div.row(class='elephantAttr mb-2')
+            div.mr-1 ID is
+            div #{elephantid}
+        - let actionid = "/resource/elephant/"+elephantid
+        form(id='elephantForm', action= actionid, method="PUT")
+          div.form-group
+            label.elephantAttr(for='name') elephant name
+            input#name(type='text' name='name', value= name )
+          div.form-group
+            label.elephantAttr(for='age') elephant age
+            input#age(type='number' name='age', value= age )
+          div.form-group
+            label.elephantAttr(for='bread') elephant bread
+            input#bread(type='text' name='bread', value= bread )
+          input(type="submit")
+        script.
+          document.forms['elephantForm'].addEventListener('submit', (event) => {
+            event.preventDefault();
+                // TODO do something here to show user that form is being submitted
+            fetch(event.target.action, {
+             method: 'PUT',
+             body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+            }).then((resp) => {
+             return resp.json(); // or resp.text() or whatever the server sends
+            }).then((body) => {
+             alert("Update succeded")
+                // TODO handle body
+            }).catch((error) => {
+                // TODO handle error
+             alert("Update failed " + error )
+            });
+          });
