@@ -11,6 +11,20 @@ a {
   background-color: aquamarine;
   width: 120px;
   }
+
+  .bonus{
+    text-align: center;
+    padding: 14px;
+    background-color: rgba(182, 197, 43, 0.888);
+    }
+    .elephantupdate {
+    background-color: rgb(61, 239, 132);
+    width: 180px;
+  }
+  .detail{
+    background-color: rgb(196, 118, 166);
+    text-align:center;
+  }  
   
 
 
