@@ -1,21 +1,13 @@
 extends layout
 
 block content
-  h1= title
-  p Making the changes in the views and index #{title}
-   
-  button(type="button", class="btn btn-primary", onclick="goFaster()") Press Me
+  if (!user)
+    a(href="/login") Login
+    br
+    a(href="/register") Register
+  if (user)
+    p You are currently logged in as #{user.username}
+    a(href="/elephant") Take me to elephant
+    br
+    a(href="/logout") Logout
 
-  div#faster <i>Increase the speed</i>
-
-  script.
-   var mph = 20;
-   var change = 1;
-   function goFaster() {
-   mph = mph + change;
-   change +=1;
-   document.getElementById("faster").innerHTML = "<b>MPH</b> " + mph + " with <i>change</i> " + change;
-   }
-  div.text-center
-    a(href='/Elephant') Elephants link
-  

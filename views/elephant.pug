@@ -1,21 +1,49 @@
+//- extends layout
+//- block content
+//-   h1= title
+//-   -
+//-     let items = results
+//-   div(class= "container-fluid")
+//-     div(class = "row")
+//-       each value,index in items
+//-         - let destination = 'dispatch(\"/elephant/update?id=${value._id}\")'
+//-         div(class= "col-sm-2", onclick=`buy(${index})`) name: #{value.name}
+//-         div(class= "col-sm-2", onclick=`buy(${index})`) age: #{value.age}
+//-         div(class= "col-sm-2", onclick=`buy(${index})`) bread: #{value.bread}
+//-         button.btn( class="btn-primary ml-1", onclick= destination) Update
+//-         br
+//-         br
+//-         br
+ 
+//-   script.
+//-     function dispatch(path){
+//-       window.location.href=path
+//-     }
 extends layout
+
 block content
   h1= title
-  -
-    let items = results
-  div(class= "container-fluid")
-    div(class = "row")
-      each value,index in items
-        - let destination = 'dispatch(\"/elephant/update?id=${value._id}\")'
-        div(class= "col-sm-2", onclick=`buy(${index})`) name: #{value.name}
-        div(class= "col-sm-2", onclick=`buy(${index})`) age: #{value.age}
-        div(class= "col-sm-2", onclick=`buy(${index})`) bread: #{value.bread}
-        button.btn( class="btn-primary ml-1", onclick= destination) Update
-        br
-        br
-        br
- 
+
+  a.btn.btn-primary(href="/elephant/create") Create Elephant
+
+  - let items = results;
+  each item in items
+    - let updateelephant = `dispatch("/elephant/update?id=${item._id}")`
+    - let elephantDetails = `dispatch("/elephant/detail?id=${item._id}")`
+    - let elephantDeletion = `dispatch("/elephant/delete?id=${item._id}")`
+
+    div
+      p elephantType - #{item.elephant_type}
+      p elephant Price - #{item.elephant_price}
+      p Color - #{item.elephant_color}
+      button.btn.btn-primary.ml-1(onclick=updateelephant) Update
+      button.btn.btn-secondary.ml-1(onclick=elephantDetails) Detail
+      button.btn.btn-danger.ml-1(onclick=elephantDeletion) Delete
+      br
+      br
+
   script.
     function dispatch(path){
-      window.location.href=path
+      window.location.href = path;
     }
+
