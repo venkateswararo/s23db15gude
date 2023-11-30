@@ -10,10 +10,9 @@ block content
         - let age = toShow.age
         - let bread = toShow.bread
 
-        
-          div.row(class='elephantAttr mb-2')
-            div.mr-1 ID is
-            div #{elephantid}
+        div.row(class='elephantAttr mb-2')
+          div.mr-1 ID is
+          div #{elephantid}
         - let actionid = "/resource/elephant/"+elephantid
         form(id='elephantForm', action= actionid, method="PUT")
           div.form-group
@@ -29,17 +28,23 @@ block content
         script.
           document.forms['elephantForm'].addEventListener('submit', (event) => {
             event.preventDefault();
-                // TODO do something here to show user that form is being submitted
+            // TODO do something here to show user that form is being submitted
             fetch(event.target.action, {
-             method: 'PUT',
-             body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+              method: 'PUT',
+              body: new URLSearchParams(new FormData(event.target)) // event.target is the form
             }).then((resp) => {
-             return resp.json(); // or resp.text() or whatever the server sends
+              if(resp.ok){
+                  alert("Elephant Updated Successfully");
+                  document.getElementById('elephantForm').reset();
+              }
+              else {
+                  alert("Failed to Update Elephant");
+              }
             }).then((body) => {
-             alert("Update succeded")
-                // TODO handle body
+              console.log(body);
+              // TODO handle body
             }).catch((error) => {
-                // TODO handle error
-             alert("Update failed " + error )
+              // TODO handle error
+              alert("Update failed " + error );
             });
           });
